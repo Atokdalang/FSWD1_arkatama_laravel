@@ -1,6 +1,8 @@
 <?php
 
+use App\Controllers\AboutController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,20 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', function () {
-return 'nama saya fadly';
-});
-
-Route::redirect('/nama', '/hello');
-
-Route::fallback(function () {
-    return 'halaman ini tidak ada';
-});
-
-Route::get('/conflict/{merk}', function ($id) {
-    return 'Nama Barang : ' . $id;
-});
-
-Route::get('/conflict/nokia', function ($namaItems) {
-    return 'Tipe Barang Saya Adalah Nokia';
-});
+Route::get('/users', [UserController::class,'index']);

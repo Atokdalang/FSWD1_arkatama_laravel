@@ -19,4 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/users', [UserController::class,'index']);
+Route::get('/users', [UserController::class,'index'])->name('users.index'); // Route untuk menampilkan daftar pengguna
+
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create'); // Menambahkan rute untuk /users/create
+
+Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Mengubah rute menjadi POST dan memberikan nama rute
+
+Route::get('/users/detail', [UserController::class, 'detail'])->name('users.detail'); // Route untuk menampilkan detail pengguna
+
+Route::get('/users/edit', [UserController::class, 'edit'])->name('users.edit'); // Route untuk menampilkan edit pengguna
+
+Route::delete('/users/delete', [UserController::class, 'delete'])->name('users.delete'); // Route untuk menghapus pengguna

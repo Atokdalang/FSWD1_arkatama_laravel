@@ -13,8 +13,8 @@
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
   <style>
       .container-custom {
-        width: 97%; /* Atur lebar container sesuai kebutuhan */
-        margin: 0 auto; /* Pusatkan container secara horizontal */
+        width: 97%; /* untuk mengatur lebar container sesuai kebutuhan */
+        margin: 0 auto; /* untuk memusatkan container secara horizontal */
       }
     </style>
 </head>
@@ -30,7 +30,7 @@
           <table id="myTable" class="table-striped">
             <thead>
             <div>
-              <a href="create.php" class="btn btn-primary btn-sm">Tambah Data</a>
+              <a href="/users/create" class="btn btn-primary btn-sm">Tambah Data</a>
         </div>
         <br>
               <tr>
@@ -48,13 +48,16 @@
                 <tr>
                   <td>{{$u->id}}</td>
                   <td>
-                    <a href="detail.blade.php?id=<?= $u['id'] ?>" class="btn btn-primary btn-sm">Detail</a>
-                    <a href="edit.php?id=<?= $u['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
-                    <form method="post" style="display: inline;">
-                            <button type="submit" name="delete" class="btn btn-danger btn-sm">Hapus</button>
-                        </form>
+                    <a href="{{ route('users.detail', ['id' => $u->id]) }}" class="btn btn-primary btn-sm">Detail</a>
+                    <a href="{{ route('users.edit', ['id' => $u->id]) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form method="post" action="{{ route('users.delete') }}" style="display: inline;">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="id" value="{{ $u->id }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
                   </td>
-                  <td><img src="{{ asset('assets/avatar.png') }}" alt="Avatar" width="50"></td>
+                  <td><img src="{{ asset('assets/' . $u['avatar']) }}" alt="Avatar" width="50"></td>
                   <td>{{$u->name}}</td>
                   <td>{{$u->email}}</td>
                   <td>{{$u->phone}}</td>

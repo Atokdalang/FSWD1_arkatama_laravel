@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Bootstrap demo</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <!-- Navbar -->
+        <header class="bg-light text-dark">
+            <div
+                class="container mx-auto d-flex flex-wrap p-5 flex-column flex-md-row align-items-center"
+            >
+                <a
+                    class="flex title-font font-medium align-items-center text-dark mb-4 md:mb-0"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                        ></path>
+                    </svg>
+                    <span class="ml-3 h5">Tailblocks</span>
+                </a>
+                <nav
+                    class="ml-auto mr-auto d-flex flex-wrap align-items-center text-base justify-content-center"
+                >
+                    <a class="mr-3 my-2 btn btn-link text-dark">First Link</a>
+                    <a class="mr-3 my-2 btn btn-link text-dark">Second Link</a>
+                    <a class="mr-3 my-2 btn btn-link text-dark">Third Link</a>
+                    <a class="mr-3 my-2 btn btn-link text-dark">Fourth Link</a>
+                </nav>
+                <button
+                    class="inline-flex items-center bg-light border border-dark py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+                >
+                    Button
+                    <svg
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        class="w-4 h-4 ml-1"
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Carouse -->
+        <container>
+            <div id="carouselExampleCaptions" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide-to="0"
+                        class="active"
+                        aria-current="true"
+                        aria-label="Slide 1"
+                    ></button>
+                    <button
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide-to="1"
+                        aria-label="Slide 2"
+                    ></button>
+                    <button
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide-to="2"
+                        aria-label="Slide 3"
+                    ></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img
+                            src="https://static.vecteezy.com/system/resources/previews/006/852/804/original/abstract-blue-background-simple-design-for-your-website-free-vector.jpg"
+                            class="w-100"
+                            style="height: 500px"
+                        />
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>First slide label</h5>
+                            <p>
+                                Some representative placeholder content for the
+                                first slide.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img
+                            src="https://png.pngtree.com/background/20210711/original/pngtree-cool-background-with-geometric-80s-design-picture-image_1157575.jpg"
+                            class="w-100"
+                            style="height: 500px"
+                        />
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Second slide label</h5>
+                            <p>
+                                Some representative placeholder content for the
+                                second slide.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img
+                            src="https://img.freepik.com/free-vector/gradient-minimalist-background_23-2149976755.jpg?w=2000"
+                            class="w-100"
+                            style="height: 500px"
+                        />
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Third slide label</h5>
+                            <p>
+                                Some representative placeholder content for the
+                                third slide.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="prev"
+                >
+                    <span
+                        class="carousel-control-prev-icon"
+                        aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="next"
+                >
+                    <span
+                        class="carousel-control-next-icon"
+                        aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </container>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

@@ -2,94 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    //function menampilkan index
     public function index()
     {
-        $users = User::all();
-        return view('user.index', compact(['users']));
+        // Ambil semua data user dari database
+        $user = User::with('role')->get();
+
+        // Tampilkan halaman index
+        return view('user.index', compact('user'));
     }
 
-    //function create data pengguna
     public function create()
     {
-        $users = User::all();
-        return view('user.create', compact(['users']));
+        // Ambil data roles dari database
+        $roles = Role::all();
+
+        // Tampilkan form create user dengan passing data roles
+        return view('user.create', compact('roles'));
     }
 
-    //function tambah pengguna
     public function store(Request $request)
-{
-    // Mendapatkan nilai input dari form
-    $name = $request->input('name');
-    $role = $request->input('role');
-    $password = $request->input('password');
-    $email = $request->input('email');
-    $phone = $request->input('phone');
-    $address = $request->input('address');
-    $avatar = $request->file('avatar');
+    {
+        // Simpan data ke database
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'role_id' => $request->role,
+            'password' => $request->password, // default password, sementara di hardcode
+        ]);
 
-    // Periksa apakah file dipilih untuk diunggah
-    if ($avatar) {
-        // Menentukan direktori tujuan untuk menyimpan file
-        $targetDir = 'assets/';
-
-        // Membuat nama unik untuk file yang diunggah
-        $uniqueName = uniqid() . '_' . $avatar->getClientOriginalName();
-
-        // Memindahkan file yang diunggah ke direktori tujuan
-        $avatar->storeAs($targetDir, $uniqueName);
-
-        // Jika unggah file berhasil, masukkan data pengguna ke dalam database
-        $query = "INSERT INTO users (name, role, password, email, phone, address, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        DB::insert($query, [$name, $role, $password, $email, $phone, $address, $uniqueName]);
-    } else {
-        // Jika tidak ada file yang dipilih untuk diunggah, masukkan data pengguna ke dalam database tanpa avatar
-        $query = "INSERT INTO users (name, role, password, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)";
-
-        DB::insert($query, [$name, $role, $password, $email, $phone, $address]);
+        // Redirect ke halaman user.index
+        return redirect()->route('user.index');
     }
 
-    // Redirect ke halaman index pengguna setelah proses penyimpanan selesai
-    return redirect()->route('users.index');
-}
 
-    //function detail data pengguna
-    public function detail()
+    public function edit($id)
     {
-        $users = User::all();
-        return view('user.detail', compact(['users']));
+        // Ambil data user berdasarkan id
+        $user = User::find($id);
+
+        // Ambil data roles dari database
+        $roles = Role::all();
+
+        // Tampilkan halaman edit dengan passing data user dan roles
+        return view('user.edit', compact('user', 'roles'));
     }
 
-    //function edit data pengguna
-    public function edit()
+    public function update(Request $request, $id)
     {
-        // Mengambil semua data pengguna dari tabel "users"
-        $users = User::all();
+        // Ambil data user berdasarkan id
+        $user = User::find($id);
 
-        // Mengirimkan data pengguna ke view "user.detail" menggunakan compact() untuk membuat array asosiatif
-        // Array asosiatif tersebut akan memiliki kunci "users" yang mengacu pada data pengguna yang diambil sebelumnya
-        return view('user.edit', compact(['users']));
+        // Update data user
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone
+        ]);
+
+        // Redirect ke halaman user.index
+        return redirect()->route('user.index');
     }
 
-     //function delete data pengguna
-     public function delete(Request $request)
+    public function destroy($id)
     {
-        $id = $request->input('delete');
-        $query = "DELETE FROM users WHERE id = ?";
-        $deleted = DB::delete($query, [$id]);
+        // Ambil data user berdasarkan id
+        $user = User::find($id);
 
-        if ($deleted) {
-            return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus.');
-        } else {
-            return redirect()->route('users.index')->with('error', 'Gagal menghapus pengguna.');
-        }
+        // Hapus data user
+        $user->delete();
+
+        // Redirect ke halaman user.index
+        return redirect()->route('user.index');
     }
 }

@@ -1,85 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Pengguna</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"/>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-  <style>
-      .container-custom {
-        width: 97%; /* untuk mengatur lebar container sesuai kebutuhan */
-        margin: 0 auto; /* untuk memusatkan container secara horizontal */
-      }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-dark Shadow-lg Sticky-top">
-        <div class="container-custom">
-            <h1 style="color:white"><img src="{{ asset('assets/database.png') }}" width="30" alt=""> Data Pengguna </h1>
-          </div>
-        </nav>
-        <br>
-        <!-- Tampilkan Data -->
-        <div class="container-custom">
-          <table id="myTable" class="table-striped">
-            <thead>
-            <div>
-              <a href="/users/create" class="btn btn-primary btn-sm">Tambah Data</a>
+@extends('layouts.main')
+
+@section('content')
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="my-4">User</h1>
+
+            <a href="{{ route('user.create') }}" class="btn btn-primary mb-2">Create User</a>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <table id="dataTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Avatar</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($user as $user)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        <img src="https://placehold.co/50x50" alt="avatar">
+                                    </td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->phone }}</td>
+                                    <td>
+                                        <span class="badge  {{ $user->role->name == 'admin' ? 'bg-success' : 'bg-primary' }}">{{ $user->role->name }}</span>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
+                                            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <br>
-              <tr>
-                <th>#</th>
-                <th>Aksi</th>
-                <th>Avatar</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Role</th>
-              </tr>
-              @foreach ($users as $u)
-            </thead>
-            <tbody>
-                <tr>
-                  <td>{{$u->id}}</td>
-                  <td>
-                    <a href="{{ route('users.detail', ['id' => $u->id]) }}" class="btn btn-primary btn-sm">Detail</a>
-                    <a href="{{ route('users.edit', ['id' => $u->id]) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form method="post" action="{{ route('users.delete') }}" style="display: inline;">
-                        @csrf
-                        @method('delete')
-                        <input type="hidden" name="id" value="{{ $u->id }}">
-                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                  </td>
-                  <td><img src="{{ asset('assets/' . $u['avatar']) }}" alt="Avatar" width="50"></td>
-                  <td>{{$u->name}}</td>
-                  <td>{{$u->email}}</td>
-                  <td>{{$u->phone}}</td>
-                  <td>{{$u->role}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-          </table>
-          <a href="login.php" class="btn btn-primary btn-sm float-right">Kembali</a>
-        </div>
-
-        <!-- Inisialisasi DataTables -->
-        <script>
-          $(document).ready(function () {
-            $('#myTable').DataTable();
-        });
-        </script>
-
-        </body>
-        </html>
-</head>
-<body>
-
-</body>
-</html>
+    </main>
+@endsection

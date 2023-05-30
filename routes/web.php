@@ -21,6 +21,10 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 // Route untuk landing page
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/contact', [LandingController::class, 'contact'])->name('contact'); // Route untuk menampilkan contact pada landing page

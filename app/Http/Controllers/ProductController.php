@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -16,62 +16,106 @@ class ProductController extends Controller
         return view('product.index', ['products' => $products]);
     }
 
+    public function checkout()
+    {
+        $products = Product::all();
+
+        return view('order.checkout', compact('products'));
+    }
+
     public function create()
     {
+        $categories = Category::all();
 
-        $category = Category::all();
-
-        return view('product.create', compact('category'));
+        return view('product.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        $product = Product::create([
-            'category_id' => $request->category,
-            'name' => $request->name,
-            'price' => $request->price,
-        ]);
+        $image1 = $request->file('image1');
+        $image2 = $request->file('image2');
 
-        return redirect()->route('product.index');
+        $imagePath1 = null;
+        $imagePath2 = null;
+
+        if ($image1) {
+            $imagePath1 = $image1->store('product', 'public');
+        }
+
+        if ($image2) {
+            $imagePath2 = $image2->store('product', 'public');
+        }
+
+        $product = new Product();
+        $product->category_id = $request->category;
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->image1 = $imagePath1;
+        $product->image2 = $imagePath2;
+        $product->save();
+
+        return redirect()->route('product.index')->with('success', 'Product created successfully.');
     }
 
     public function edit($id)
-    {
-        // ambil data product berdasarkan id
-        $product = Product::where('id', $id)->with('category')->first();
+{
+    $product = Product::findOrFail($id);
+    $categories = Category::all();
 
-        // ambil data brand dan category sebagai isian di pilihan (select)
-        $category = Category::all();
+    return view('product.edit', compact('product', 'categories'));
+}
 
-        // tampilkan view edit dan passing data product
-        return view('product.edit', compact('product','category'));
+public function update(Request $request, $id)
+{
+    $product = Product::findOrFail($id);
+
+    $product->category_id = $request->category;
+    $product->name = $request->name;
+    $product->price = $request->price;
+
+    if ($request->hasFile('image1')) {
+        // Hapus gambar lama jika ada
+        if ($product->image1) {
+            Storage::disk('public')->delete($product->image1);
+        }
+
+        $image1 = $request->file('image1');
+        $imagePath1 = $image1->store('product', 'public');
+        $product->image1 = $imagePath1;
     }
 
-    public function update(Request $request, $id)
-    {
-        // ambil data product berdasarkan id
-        $product = Product::find($id);
+    if ($request->hasFile('image2')) {
+        // Hapus gambar lama jika ada
+        if ($product->image2) {
+            Storage::disk('public')->delete($product->image2);
+        }
 
-        // update data product
-        $product->update([
-            'category_id' => $request->category,
-            'name' => $request->name,
-            'price' => $request->price,
-        ]);
-
-        // redirect ke halaman product.index
-        return redirect()->route('product.index');
+        $image2 = $request->file('image2');
+        $imagePath2 = $image2->store('product', 'public');
+        $product->image2 = $imagePath2;
     }
 
-    public function destroy($id)
-    {
-        // ambil data product berdasarkan id
-        $product = Product::find($id);
+    $product->save();
 
-        // hapus data product
-        $product->delete();
+    return redirect()->route('product.index')->with('success', 'Product updated successfully.');
+}
 
-        // redirect ke halaman product.index
-        return redirect()->route('product.index');
+public function destroy($id)
+{
+    $product = Product::findOrFail($id);
+
+    // Hapus gambar 1 jika ada
+    if ($product->image1) {
+        Storage::disk('public')->delete($product->image1);
     }
+
+    // Hapus gambar 2 jika ada
+    if ($product->image2) {
+        Storage::disk('public')->delete($product->image2);
+    }
+
+    $product->delete();
+
+    return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
+}
 }

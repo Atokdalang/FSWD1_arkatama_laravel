@@ -11,5 +11,11 @@ class Slider extends Model
 
     protected $table = 'sliders';
 
-    protected $fillable = ['title', 'image', 'description'];
+    protected $fillable = ['title', 'image', 'caption'];
+
+    public function slider()
+    {
+        return $this->belongsTo(Slider::class);
+    }
 }
+

@@ -51,17 +51,23 @@
         font-size: 84px;
         line-height: 109px;
     }
+    .bird_img {
+        margin-top: 20px;
+    }
     .padding_01 {
         padding: 15px;
     }
     #bird1 a.carousel-control-next {
         right: 0%;
+        margin-right: 10px;
     }
     #bird2 a.carousel-control-next {
         right: 0%;
+        margin-right: 10px;
     }
     #bird3 a.carousel-control-next {
         right: 0%;
+        margin-right: 10px;
     }
     #bird4 .carousel-control-prev {
         left: 0%;
@@ -103,17 +109,23 @@
         font-size: 61px;
         line-height: 84px;
     }
+    .bird_img {
+        margin-top: 20px;
+    }
     .padding_01 {
         padding: 15px;
     }
     #bird1 a.carousel-control-next {
         right: 0%;
+        margin-right: 10px;
     }
     #bird2 a.carousel-control-next {
         right: 0%;
+        margin-right: 10px;
     }
     #bird3 a.carousel-control-next {
         right: 0%;
+        margin-right: 10px;
     }
     #bird4 .carousel-control-prev {
         left: 0%;

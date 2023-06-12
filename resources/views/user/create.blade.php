@@ -7,7 +7,7 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <form action="{{ route('user.store') }}" method="POST">
+                    <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">
@@ -27,8 +27,12 @@
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                         <div class="mb-3">
+                            <label for="profile_image" class="form-label">Profile Image</label>
+                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                        </div>
+                        <div class="mb-3">
                             <label for="role" class="form-label">Role</label>
-                            <select class="form-select" aria-label="role" id="role" name="role">
+                            <select class="form-select" aria-label="role" id="role" name="role_id">
                                 <option selected disabled>- Choose Role -</option>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>

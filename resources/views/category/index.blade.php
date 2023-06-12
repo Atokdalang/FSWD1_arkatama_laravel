@@ -3,13 +3,15 @@
 @section('content')
     <main>
         <div class="container-fluid px-4">
-            <h1 class="my-4">Category</h1>
+            <h1 class="my-4"><i class="fas fa-folder"></i> Category</h1>
 
-            <a class="btn btn-primary mb-2" href="{{ route('category.create') }}" role="button">Create New</a>
+            <a class="btn btn-primary mb-2" href="{{ route('category.create') }}" role="button">
+                <i class="fas fa-plus"></i> Create
+            </a>
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <table id="dataTable" class="table table-striped">
+                    <table id="datatablesSimple" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -18,17 +20,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($category as $category)
+                            @foreach ($categories as $category)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>
-                                        <form onsubmit="return confirm('Are you sure? ');" action="{{ route('category.destroy', $category->id) }}" method="POST">
-                                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                        <form onsubmit="return confirm('Are you sure? ');"
+                                            action="{{ route('category.destroy', $category->id) }}" method="POST">
+                                            <a href="{{ route('category.edit', $category->id) }}"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

@@ -8,7 +8,7 @@
             <div class="card mb-4">
                 <div class="card-body">
 
-                    <form action="{{ route('slider.update', $slider->id) }}" method="POST" enctype="multipart/form-data" >
+                    <form action="{{ route('slider.update', $slider->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

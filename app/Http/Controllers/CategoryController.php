@@ -9,11 +9,10 @@ class CategoryController extends Controller
 {
     public function index()
     {
-
-        $category = Category::all();
-
-        return view('category.index', compact('category'));
+        $categories = Category::paginate(10); // Mengambil 10 data per halaman
+        return view('category.index', compact('categories'));
     }
+
 
     public function create()
     {

@@ -53,8 +53,18 @@
                   </div>
                   <div class="col-sm-9">
                      <ul class="email text_align_right">
-                        <li class="d_none"><i class="fa fa-search" style="cursor: pointer;" aria-hidden="true"></i></li>
-                        <li class="d_none"> <a href="Javascript:void(0)">Login</a> </li>
+                        @auth
+                        <li class="d_none">
+                            <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                              Logout
+                            </a>
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                              @csrf <!-- Token CSRF (untuk Laravel) -->
+                            </form>
+                          </li>
+                        @else
+                        <li class="d_none"> <a href="{{url('/login')}}">Login</a> </li>
+                        @endauth
                         <li> <button class="openbtn" onclick="openNav()"><img src="{{asset('assets/menu_btn.png')}}"></button></li>
                      </ul>
                   </div>
